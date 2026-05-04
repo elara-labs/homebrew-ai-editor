@@ -1,26 +1,30 @@
 # Homebrew Cask — AI Editor (macOS).
 #
-# This file is the source of truth for the cask formula. To make
-# `brew install --cask ai-editor` work for end users, copy or
-# symlink this file into the official tap repo:
+# This file is the source of truth for the cask formula. The release
+# workflow patches it in the tap repo (elara-labs/homebrew-ai-editor)
+# on every v* tag — see .github/workflows/release.yml.
 #
-#   1. Create a tap repo named  elara-labs/homebrew-ai-editor
-#   2. Place this file at        Casks/ai-editor.rb
-#   3. Users then run:
-#        brew tap elara-labs/ai-editor
-#        brew install --cask ai-editor
+# Manual edits are usually unnecessary; the auto-bumper updates:
+#   - `version` (top-level, line marked CASK_VERSION)
+#   - the two per-arch `sha256` lines (marked CASK_SHA_ARM / CASK_SHA_INTEL)
 #
-# Per-release maintenance:
-#   - bump `version` to the released tag (without leading "v")
-#   - replace `:no_check` with the SHA-256 of the dmg per arch
-# A small CI step in .github/workflows/release.yml can patch this
-# file in the tap repo automatically on each tag push.
+# Don't reflow those marker lines — the bumper relies on them.
+#
+#   brew tap elara-labs/ai-editor
+#   brew install --cask ai-editor
 
 cask "ai-editor" do
   arch arm: "arm64", intel: "x64"
 
-  version "0.0.1"
-  sha256 :no_check
+  version "0.0.1" # CASK_VERSION
+
+  on_arm do
+    sha256 "0000000000000000000000000000000000000000000000000000000000000000" # CASK_SHA_ARM
+  end
+
+  on_intel do
+    sha256 "0000000000000000000000000000000000000000000000000000000000000000" # CASK_SHA_INTEL
+  end
 
   url "https://github.com/elara-labs/ai-editor/releases/download/v#{version}/ai-editor-#{version}-#{arch}.dmg",
       verified: "github.com/elara-labs/ai-editor/"
